@@ -1,0 +1,13 @@
+{
+  "name": "ai-content-creator-mern",
+  "version": "1.0.0",
+  "description": "Full-stack AI Content Creator using MERN and Gemini.",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "start": "concurrently \"npm run start --prefix backend\" \"npm run build --prefix frontend && npm run preview --prefix frontend\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
