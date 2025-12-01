@@ -19,7 +19,7 @@ services:
         sync: false
       - key: FRONTEND_URL
         sync: false
-    
+     
   # Frontend Static Site
   - type: web
     name: ai-content-frontend
