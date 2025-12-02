@@ -12,20 +12,19 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:5174',
-  process.env.FRONTEND_URL || 'https://ai-content-creator-zeta.vercel.app'
-];
-
 app.use(cors({
   origin: function(origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
+    
+    // Allow localhost for development
+    if (origin.includes('localhost')) return callback(null, true);
+    
+    // Allow all Vercel preview and production URLs
+    if (origin.includes('vercel.app')) return callback(null, true);
+    
+    // Reject other origins
+    callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 }));
