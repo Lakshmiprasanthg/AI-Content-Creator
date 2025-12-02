@@ -1,12 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { connectDB } from '../backend/src/config/db.js';
-import authRoutes from '../backend/src/routes/authRoutes.js';
-import generateRoutes from '../backend/src/routes/generateRoutes.js';
-import contentRoutes from '../backend/src/routes/contentRoutes.js';
-import { apiLimiter } from '../backend/src/middleware/rateLimitMiddleware.js';
-import errorHandler from '../backend/src/middleware/errorHandler.js';
+import { connectDB } from '../../backend/src/config/db.js';
+import authRoutes from '../../backend/src/routes/authRoutes.js';
+import generateRoutes from '../../backend/src/routes/generateRoutes.js';
+import contentRoutes from '../../backend/src/routes/contentRoutes.js';
+import { apiLimiter } from '../../backend/src/middleware/rateLimitMiddleware.js';
+import errorHandler from '../../backend/src/middleware/errorHandler.js';
 
 dotenv.config();
 
