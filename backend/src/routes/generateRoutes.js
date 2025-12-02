@@ -9,10 +9,21 @@ const router = express.Router();
 
 // POST /api/generate/text
 router.post('/text', protect, generationLimiter, asyncHandler(async (req, res) => {
-  validateRequest(req, res, ['prompt']);
-  const { prompt } = req.body;
-  const generatedText = await generateContent(prompt);
-  res.json({ generatedText });
+  try {
+    console.log('[Generate] Request received from user:', req.user?._id);
+    validateRequest(req, res, ['prompt']);
+    const { prompt } = req.body;
+    console.log('[Generate] Prompt length:', prompt?.length, 'Model: gemini-1.5-flash');
+    
+    const generatedText = await generateContent(prompt);
+    console.log('[Generate] Success! Generated text length:', generatedText?.length);
+    
+    res.json({ generatedText });
+  } catch (error) {
+    console.error('[Generate] ERROR:', error.message);
+    console.error('[Generate] Stack:', error.stack);
+    throw error; // Let asyncHandler handle it
+  }
 }));
 
 export default router;
