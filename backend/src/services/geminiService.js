@@ -1,7 +1,7 @@
 import { getGeminiClient } from '../config/geminiClient.js';
 
-// Using Gemini 1.5 Pro - better free tier quota
-const MODEL_NAME = 'gemini-1.5-pro';
+// Using Gemini 1.5 Pro Latest
+const MODEL_NAME = 'models/gemini-1.5-pro-latest';
 
 /**
  * Generate content from Gemini given a prompt.
