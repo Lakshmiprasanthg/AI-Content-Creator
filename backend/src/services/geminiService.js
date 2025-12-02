@@ -1,7 +1,7 @@
 import { getGeminiClient } from '../config/geminiClient.js';
 
-// Using Gemini 1.5 Flash - works with v1beta API
-const MODEL_NAME = 'gemini-1.5-flash';
+// Using Gemini 2.5 Flash - current stable model
+const MODEL_NAME = 'gemini-2.5-flash';
 
 /**
  * Generate content from Gemini given a prompt.
