@@ -45,28 +45,39 @@ app.use(errorHandler);
 let isConnected = false;
 
 export default async function handler(req, res) {
-  // Set CORS headers for all requests
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  try {
+    // Set CORS headers for all requests
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end();
+    }
 
-  // Connect to MongoDB
-  if (!isConnected) {
-    try {
+    // Check environment variables
+    if (!process.env.MONGO_URI) {
+      console.error('Missing MONGO_URI environment variable');
+      return res.status(500).json({ error: 'Server configuration error: Missing MONGO_URI' });
+    }
+
+    // Connect to MongoDB
+    if (!isConnected) {
+      console.log('Connecting to MongoDB...');
       await connectDB();
       isConnected = true;
-    } catch (error) {
-      console.error('MongoDB connection error:', error);
-      return res.status(500).json({ error: 'Database connection failed' });
+      console.log('MongoDB connected successfully');
     }
-  }
 
-  // Pass request to Express app
-  return app(req, res);
+    // Pass request to Express app
+    return app(req, res);
+  } catch (error) {
+    console.error('Handler error:', error);
+    return res.status(500).json({ 
+      error: 'Internal server error', 
+      message: error.message 
+    });
+  }
 }
