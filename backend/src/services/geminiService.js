@@ -1,7 +1,7 @@
 import { getGeminiClient } from '../config/geminiClient.js';
 
-// Using Gemini 2.0 Flash experimental model
-const MODEL_NAME = 'gemini-2.0-flash-exp';
+// Using Gemini 1.5 Pro - better free tier quota
+const MODEL_NAME = 'gemini-1.5-pro';
 
 /**
  * Generate content from Gemini given a prompt.
