@@ -1,6 +1,6 @@
 import { getGeminiClient } from '../config/geminiClient.js';
 
-const MODEL_NAME = 'gemini-2.5-flash';
+const MODEL_NAME = 'gemini-1.5-flash';
 
 /**
  * Generate content from Gemini given a prompt.
