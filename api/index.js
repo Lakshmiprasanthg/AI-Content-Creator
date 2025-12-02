@@ -45,9 +45,30 @@ app.use(errorHandler);
 let isConnected = false;
 
 export default async function handler(req, res) {
+  // Set CORS headers explicitly
+  const origin = req.headers.origin;
+  if (!origin || origin.includes('localhost') || origin.includes('vercel.app')) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
+
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
+  // Connect to MongoDB
   if (!isConnected) {
     await connectDB();
     isConnected = true;
   }
+
+  // Modify req.url to work with Express routing
+  req.url = req.url.replace(/^\/api/, '/api');
+  
+  // Pass request to Express app
   return app(req, res);
 }
