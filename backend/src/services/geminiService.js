@@ -19,17 +19,22 @@ export const generateContent = async (prompt) => {
     console.log('[GeminiService] Sending request to Gemini...');
     const result = await model.generateContent(prompt);
     console.log('[GeminiService] Received response from Gemini');
+    console.log('[GeminiService] Response structure:', JSON.stringify(result, null, 2));
     
-    // The SDK response structure may vary; adjust extraction as needed:
-    const text = result.response?.text?.() || result.response?.candidates?.[0]?.content?.parts?.map(p => p.text).join('\n') || '';
+    // Extract text from response
+    const response = result.response;
+    const text = response.text();
+    
+    console.log('[GeminiService] Extracted text length:', text?.length);
     if (!text) {
-      console.error('[GeminiService] Empty response from Gemini, full response:', JSON.stringify(result));
+      console.error('[GeminiService] Empty response from Gemini');
       throw new Error('Empty response from Gemini');
     }
     return text;
   } catch (err) {
     console.error('[GeminiService] Gemini API Error:', err.message);
-    console.error('[GeminiService] Error details:', err);
+    console.error('[GeminiService] Error stack:', err.stack);
+    console.error('[GeminiService] Error name:', err.name);
     throw new Error(`Failed to generate content: ${err.message}`);
   }
 };
